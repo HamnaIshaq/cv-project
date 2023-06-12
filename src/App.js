@@ -1,25 +1,73 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { Component } from "react";
+import GeneralInfo from "./components/GeneralInfo";
+import FinalCV from "./components/FinalCV";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+class App extends Component {
+  constructor() {
+    super();
+
+    this.state = {
+      generalInfo: {
+        name: "John Doe",
+        email: "johnDoe@gmail.com",
+        phoneNumber: 123456789,
+      },
+    };
+
+    this.onChangeName = this.onChangeName.bind(this);
+    this.onChangeEmail = this.onChangeEmail.bind(this);
+    this.onChangePhoneNumber = this.onChangePhoneNumber.bind(this);
+    this.onSubmitAddGeneralInfo = this.onSubmitAddGeneralInfo.bind(this);
+  }
+
+  onChangeName(e) {
+    const generalInfoBeforeUpdate = this.state.generalInfo;
+    generalInfoBeforeUpdate.name = e.target.value;
+
+    this.setState({
+      generalInfo: generalInfoBeforeUpdate,
+    });
+  }
+
+  onChangeEmail(e) {
+    const generalInfoBeforeUpdate = this.state.generalInfo;
+    generalInfoBeforeUpdate.email = e.target.value;
+
+    this.setState({
+      generalInfo: generalInfoBeforeUpdate,
+    });
+  }
+
+  onChangePhoneNumber(e) {
+    const generalInfoBeforeUpdate = this.state.generalInfo;
+    generalInfoBeforeUpdate.phoneNumber = e.target.value;
+
+    this.setState({
+      generalInfo: generalInfoBeforeUpdate,
+    });
+  }
+
+  onSubmitAddGeneralInfo(e) {
+    e.preventDefault();
+  }
+
+  render() {
+    return (
+      <div>
+        cv project
+        <form>
+          <GeneralInfo
+            generalInfo={this.state.generalInfo}
+            onChangeName={this.onChangeName}
+            onChangeEmail={this.onChangeEmail}
+            onChangePhoneNumber={this.onChangePhoneNumber}
+          />
+        </form>
+        Final Result:
+        <FinalCV cvInfo={this.state} />
+      </div>
+    );
+  }
 }
 
 export default App;
