@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import uniqid from "uniqid";
 import GeneralInfo from "./components/GeneralInfo";
 import FinalCV from "./components/FinalCV";
 import Education from "./components/Education";
@@ -13,18 +14,14 @@ class App extends Component {
         email: "johnDoe@gmail.com",
         phoneNumber: 123456789,
       },
-      singleEducation: {
-        schoolName: "School Name",
-        degreeName: "Degree Name",
-        startDate: "12-12-12",
-        endDate: "12-12-13",
-      },
       education: [
         {
+          id: uniqid(),
           schoolName: "School Name",
           degreeName: "Degree Name",
-          startDate: "12-12-12",
-          endDate: "12-12-13",
+          startDate: "2020-10-10",
+          endDate: "",
+          present: false,
         },
       ],
     };
@@ -32,7 +29,9 @@ class App extends Component {
     this.onChangeName = this.onChangeName.bind(this);
     this.onChangeEmail = this.onChangeEmail.bind(this);
     this.onChangePhoneNumber = this.onChangePhoneNumber.bind(this);
-    this.onSubmitAddGeneralInfo = this.onSubmitAddGeneralInfo.bind(this);
+    this.addMoreEducation = this.addMoreEducation.bind(this);
+    this.onChangeEducation = this.onChangeEducation.bind(this);
+    this.onClickDeleteEducation = this.onClickDeleteEducation.bind(this);
   }
 
   onChangeName(e) {
@@ -62,8 +61,57 @@ class App extends Component {
     });
   }
 
-  onSubmitAddGeneralInfo(e) {
-    e.preventDefault();
+  addMoreEducation() {
+    const addMoreEducation = {
+      id: uniqid(),
+      schoolName: "School Name",
+      degreeName: "Degree Name",
+      startDate: "12-12-12",
+      endDate: "12-12-13",
+    };
+
+    const currentEducation = this.state.education;
+
+    currentEducation.push(addMoreEducation);
+    this.setState({
+      education: currentEducation,
+    });
+  }
+
+  onChangeEducation(e) {
+    const id = e.target.getAttribute("data-id");
+    const inputToChange = e.target.getAttribute("data-input");
+
+    const field = this.state.education.filter(
+      (education) => education.id === id
+    );
+
+    if (inputToChange === "present") {
+      field[0][inputToChange] = e.target.checked;
+    } else {
+      field[0][inputToChange] = e.target.value;
+    }
+
+    const updatedFields = this.state.education.map((education) => {
+      if (education.id === id) {
+        return field[0];
+      }
+      return education;
+    });
+
+    this.setState({
+      education: updatedFields,
+    });
+  }
+
+  onClickDeleteEducation(e) {
+    const filteredData = this.state.education.filter(
+      (education) => education.id !== e.target.id
+    );
+
+    this.setState({
+      education: filteredData,
+    });
   }
 
   render() {
@@ -77,7 +125,12 @@ class App extends Component {
             onChangeEmail={this.onChangeEmail}
             onChangePhoneNumber={this.onChangePhoneNumber}
           />
-          <Education />
+          <Education
+            education={this.state.education}
+            addMoreEducation={this.addMoreEducation}
+            onChangeEducation={this.onChangeEducation}
+            onClickDeleteEducation={this.onClickDeleteEducation}
+          />
         </form>
         Final Result:
         <FinalCV cvInfo={this.state} />
