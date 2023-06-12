@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import GeneralInfo from "./components/GeneralInfo";
 import FinalCV from "./components/FinalCV";
+import Education from "./components/Education";
 
 class App extends Component {
   constructor() {
@@ -12,6 +13,20 @@ class App extends Component {
         email: "johnDoe@gmail.com",
         phoneNumber: 123456789,
       },
+      singleEducation: {
+        schoolName: "School Name",
+        degreeName: "Degree Name",
+        startDate: "12-12-12",
+        endDate: "12-12-13",
+      },
+      education: [
+        {
+          schoolName: "School Name",
+          degreeName: "Degree Name",
+          startDate: "12-12-12",
+          endDate: "12-12-13",
+        },
+      ],
     };
 
     this.onChangeName = this.onChangeName.bind(this);
@@ -62,6 +77,7 @@ class App extends Component {
             onChangeEmail={this.onChangeEmail}
             onChangePhoneNumber={this.onChangePhoneNumber}
           />
+          <Education />
         </form>
         Final Result:
         <FinalCV cvInfo={this.state} />
