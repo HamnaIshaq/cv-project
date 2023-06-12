@@ -23,6 +23,7 @@ class FinalCV extends Component {
         <div key={workExp.id}>
           <p>Company Name: {workExp.companyName}</p>
           <p>Position Title: {workExp.positionTitle}</p>
+          <p>Main Tasks: {workExp.mainTasks}</p>
           <p>
             {workExp.startDate} -{" "}
             {workExp.present ? "Present" : workExp.endDate}

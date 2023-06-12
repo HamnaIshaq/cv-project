@@ -27,6 +27,16 @@ class WorkExperience extends Component {
             value={workExp.positionTitle}
             onChange={this.props.onChangeWorkExperience}
           />
+          <label htmlFor={workExp.id + "-main-tasks"}>Main Tasks:</label>
+          <textarea
+            id={workExp.id + "-main-tasks"}
+            cols="30"
+            rows="10"
+            data-input="mainTasks"
+            data-id={workExp.id}
+            value={workExp.mainTasks}
+            onChange={this.props.onChangeWorkExperience}
+          ></textarea>
           <label htmlFor={workExp.id + "-start-date"}>Start Date:</label>
           <input
             type="date"
