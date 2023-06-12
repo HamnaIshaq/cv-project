@@ -2,10 +2,9 @@ import React, { Component } from "react";
 
 class FinalCV extends Component {
   render() {
-    const { generalInfo, education } = this.props.cvInfo;
+    const { generalInfo, education, workExperience } = this.props.cvInfo;
 
     const { name, email, phoneNumber } = generalInfo;
-    //const { schoolName, degreeName, startDate, endDate } =
 
     const educationList = education.map((ed) => {
       return (
@@ -19,6 +18,19 @@ class FinalCV extends Component {
       );
     });
 
+    const workExpList = workExperience.map((workExp) => {
+      return (
+        <div key={workExp.id}>
+          <p>Company Name: {workExp.companyName}</p>
+          <p>Position Title: {workExp.positionTitle}</p>
+          <p>
+            {workExp.startDate} -{" "}
+            {workExp.present ? "Present" : workExp.endDate}
+          </p>
+        </div>
+      );
+    });
+
     return (
       <div>
         <h1>{name}</h1>
@@ -27,6 +39,9 @@ class FinalCV extends Component {
 
         <h2>Education</h2>
         <div>{educationList}</div>
+
+        <h2>Work Experience</h2>
+        <div>{workExpList}</div>
       </div>
     );
   }
