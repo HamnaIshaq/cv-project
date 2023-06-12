@@ -3,6 +3,7 @@ import uniqid from "uniqid";
 import GeneralInfo from "./components/GeneralInfo";
 import FinalCV from "./components/FinalCV";
 import Education from "./components/Education";
+import WorkExperience from "./components/WorkExperience";
 
 class App extends Component {
   constructor() {
@@ -21,7 +22,18 @@ class App extends Component {
           degreeName: "Degree Name",
           startDate: "2020-10-10",
           endDate: "",
-          present: false,
+          present: true,
+        },
+      ],
+      workExperience: [
+        {
+          id: uniqid(),
+          companyName: "Company Name",
+          positionTitle: "Position",
+          mainTasks: "tasks",
+          startDate: "2020-10-10",
+          endDate: "",
+          present: true,
         },
       ],
     };
@@ -32,7 +44,13 @@ class App extends Component {
     this.addMoreEducation = this.addMoreEducation.bind(this);
     this.onChangeEducation = this.onChangeEducation.bind(this);
     this.onClickDeleteEducation = this.onClickDeleteEducation.bind(this);
+    this.addMoreWorkExperience = this.addMoreWorkExperience.bind(this);
+    this.onChangeWorkExperience = this.onChangeWorkExperience.bind(this);
+    this.onClickDeleteWorkExperience =
+      this.onClickDeleteWorkExperience.bind(this);
   }
+
+  // General Info
 
   onChangeName(e) {
     const generalInfoBeforeUpdate = this.state.generalInfo;
@@ -60,6 +78,8 @@ class App extends Component {
       generalInfo: generalInfoBeforeUpdate,
     });
   }
+
+  // Education
 
   addMoreEducation() {
     const addMoreEducation = {
@@ -114,6 +134,63 @@ class App extends Component {
     });
   }
 
+  // Work Experience
+
+  addMoreWorkExperience() {
+    const addMoreWorkExperience = {
+      id: uniqid(),
+      companyName: "Company Name",
+      positionTitle: "Position",
+      mainTasks: "tasks",
+      startDate: "2020-10-10",
+      endDate: "",
+      present: true,
+    };
+
+    const currentWorkExp = this.state.workExperience;
+
+    currentWorkExp.push(addMoreWorkExperience);
+    this.setState({
+      workExperience: currentWorkExp,
+    });
+  }
+
+  onChangeWorkExperience(e) {
+    const id = e.target.getAttribute("data-id");
+    const inputToChange = e.target.getAttribute("data-input");
+
+    const field = this.state.workExperience.filter(
+      (workExp) => workExp.id === id
+    );
+
+    if (inputToChange === "present") {
+      field[0][inputToChange] = e.target.checked;
+    } else {
+      field[0][inputToChange] = e.target.value;
+    }
+
+    const updatedFields = this.state.workExperience.map((workExp) => {
+      if (workExp.id === id) {
+        return field[0];
+      }
+      return workExp;
+    });
+
+    this.setState({
+      workExp: updatedFields,
+    });
+  }
+
+  onClickDeleteWorkExperience(e) {
+    const filteredData = this.state.workExperience.filter(
+      (workExp) => workExp.id !== e.target.id
+    );
+
+    this.setState({
+      workExperience: filteredData,
+    });
+  }
+
   render() {
     return (
       <div>
@@ -130,6 +207,12 @@ class App extends Component {
             addMoreEducation={this.addMoreEducation}
             onChangeEducation={this.onChangeEducation}
             onClickDeleteEducation={this.onClickDeleteEducation}
+          />
+          <WorkExperience
+            workExperience={this.state.workExperience}
+            addMoreWorkExperience={this.addMoreWorkExperience}
+            onChangeWorkExperience={this.onChangeWorkExperience}
+            onClickDeleteWorkExperience={this.onClickDeleteWorkExperience}
           />
         </form>
         Final Result:
